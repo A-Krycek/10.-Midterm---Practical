@@ -1,0 +1,27 @@
+[Unit]
+Description=FastAPI URL Shortener Service (EC2)
+After=network.target
+
+[Service]
+# Usuario del sistema (usar 'ubuntu' en Ubuntu o 'ec2-user' en Amazon Linux 2023)
+User=ubuntu
+Group=ubuntu
+
+# Directorio donde se encuentra el backend clonado
+WorkingDirectory=/home/ubuntu/aws-url-shortener/backend
+
+# Archivo de variables de entorno
+EnvironmentFile=/home/ubuntu/aws-url-shortener/backend/.env
+
+# Comando para iniciar Uvicorn utilizando el entorno virtual
+ExecStart=/home/ubuntu/aws-url-shortener/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# Política de reinicio automático ante fallos
+Restart=always
+RestartSec=5
+
+# Límites de archivos abiertos
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

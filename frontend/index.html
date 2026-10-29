@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acortador de Enlaces Cloud | AWS S3, EC2 & DynamoDB</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="badge-row">
+        <span class="aws-badge">Amazon S3 (Frontend)</span>
+        <span class="aws-badge ec2">Amazon EC2 (FastAPI)</span>
+        <span class="aws-badge dynamo">Amazon DynamoDB</span>
+      </div>
+      <h1>Acortador de Enlaces Cloud</h1>
+      <p class="subtitle">Genera identificadores UUID únicos y redirige con HTTP 307 mediante AWS</p>
+    </header>
+
+    <!-- API Config Banner -->
+    <div class="config-banner">
+      <div class="config-status">
+        <span id="status-dot" class="status-dot"></span>
+        <span>Backend EC2: <strong id="current-api-display">Cargando...</strong></span>
+      </div>
+      <button id="toggle-config-btn" class="btn-secondary" type="button">⚙️ Cambiar Host EC2</button>
+    </div>
+
+    <!-- Collapsible Config Panel -->
+    <div id="config-panel" class="config-input-panel">
+      <label for="custom-api-input">Dirección de la API en Amazon EC2:</label>
+      <div class="config-input-group">
+        <input type="text" id="custom-api-input" placeholder="http://<ip-publica-ec2>:8000">
+        <button id="save-config-btn" class="btn-primary" type="button">Guardar</button>
+        <button id="reset-config-btn" class="btn-secondary" type="button">Restablecer</button>
+      </div>
+      <small style="color: var(--text-muted);">El frontend alojado en S3 enviará las solicitudes HTTP a esta dirección pública.</small>
+    </div>
+
+    <!-- Alert Box -->
+    <div id="alert-box" class="alert alert-error" role="alert"></div>
+
+    <!-- Card 1: Crear enlace corto (POST /shorten) -->
+    <section class="card">
+      <form id="shorten-form">
+        <div class="form-group">
+          <label for="url-input">Dirección URL Original a acortar:</label>
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="url-input" 
+              placeholder="https://www.example.com/articulos/arquitectura-cloud" 
+              required
+              autocomplete="off"
+            >
+            <button type="submit" id="submit-btn" class="btn-primary">
+              <span id="btn-text">Acortar URL</span>
+              <span id="btn-spinner" class="spinner"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Result Container -->
+      <div id="result-box" class="result-box">
+        <div class="result-header">
+          <span>Enlace Corto Generado con Éxito</span>
+          <span style="color: var(--success); font-weight: 600;">HTTP 201 Created</span>
+        </div>
+
+        <div class="short-url-row">
+          <a id="short-url-link" class="short-url-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <button id="copy-btn" class="btn-copy" type="button">
+            <span id="copy-icon">📋</span>
+            <span id="copy-text">Copiar</span>
+          </button>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">UUID (short_code):</span>
+            <span id="result-uuid" class="uuid-badge"></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Destino Original:</span>
+            <span id="result-original" class="detail-value"></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Fecha Creación:</span>
+            <span id="result-created" class="detail-value"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card 2: Consultar Enlace (GET /urls/{short_code}) -->
+    <section class="card inspector-card">
+      <label for="inspect-code-input">🔍 Consultar Información en DynamoDB (GET /urls/{short_code})</label>
+      <form id="inspect-form" class="inspector-form">
+        <input 
+          type="text" 
+          id="inspect-code-input" 
+          placeholder="Ingresa un UUID (ej: 550e8400-e29b-41d4-a716-446655440000)" 
+          required
+        >
+        <button type="submit" id="inspect-btn" class="btn-secondary">Consultar</button>
+      </form>
+      <pre id="json-viewer" class="json-viewer"></pre>
+    </section>
+
+    <!-- Historial de Enlaces Recientes -->
+    <section class="card history-section" id="history-section" style="display: none;">
+      <div class="history-title">
+        <span>Historial de Enlaces Generados</span>
+        <button id="clear-history-btn" class="btn-secondary" style="font-size: 0.75rem;">Limpiar</button>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>Midterm - Practical: Desarrollo y despliegue de un acortador de enlaces en AWS</p>
+      <p style="margin-top: 0.35rem; font-size: 0.8rem; color: #64748b;">
+        Frontend S3 &bull; Backend FastAPI EC2 &bull; DynamoDB Table: <code>url_shortener_links</code>
+      </p>
+    </footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
