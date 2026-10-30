@@ -39,3 +39,7 @@ htmlcov/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Documentos personales / notas locales
+GUION_VIDEO_DEMO.md
+*.local.md

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acortador de Enlaces Cloud | AWS S3, EC2 & DynamoDB</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%234f46e5%22/></svg>">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
         <span class="aws-badge dynamo">Amazon DynamoDB</span>
       </div>
       <h1>Acortador de Enlaces Cloud</h1>
-      <p class="subtitle">Genera identificadores UUID únicos y redirige con HTTP 307 mediante AWS</p>
+      <p class="subtitle">Genera identificadores UUID unicos y redirige con HTTP 307 mediante AWS</p>
     </header>
 
     <!-- API Config Banner -->
@@ -27,18 +27,18 @@
         <span id="status-dot" class="status-dot"></span>
         <span>Backend EC2: <strong id="current-api-display">Cargando...</strong></span>
       </div>
-      <button id="toggle-config-btn" class="btn-secondary" type="button">⚙️ Cambiar Host EC2</button>
+      <button id="toggle-config-btn" class="btn-secondary" type="button">Configurar Host EC2</button>
     </div>
 
     <!-- Collapsible Config Panel -->
     <div id="config-panel" class="config-input-panel">
-      <label for="custom-api-input">Dirección de la API en Amazon EC2:</label>
+      <label for="custom-api-input">Direccion de la API en Amazon EC2:</label>
       <div class="config-input-group">
         <input type="text" id="custom-api-input" placeholder="http://<ip-publica-ec2>:8000">
         <button id="save-config-btn" class="btn-primary" type="button">Guardar</button>
         <button id="reset-config-btn" class="btn-secondary" type="button">Restablecer</button>
       </div>
-      <small style="color: var(--text-muted);">El frontend alojado en S3 enviará las solicitudes HTTP a esta dirección pública.</small>
+      <small style="color: var(--text-muted);">El frontend alojado en S3 enviara las solicitudes HTTP a esta direccion publica.</small>
     </div>
 
     <!-- Alert Box -->
@@ -48,7 +48,7 @@
     <section class="card">
       <form id="shorten-form">
         <div class="form-group">
-          <label for="url-input">Dirección URL Original a acortar:</label>
+          <label for="url-input">Direccion URL Original a acortar:</label>
           <div class="input-container">
             <input 
               type="text" 
@@ -68,14 +68,14 @@
       <!-- Result Container -->
       <div id="result-box" class="result-box">
         <div class="result-header">
-          <span>Enlace Corto Generado con Éxito</span>
+          <span>Enlace Corto Generado con Exito</span>
           <span style="color: var(--success); font-weight: 600;">HTTP 201 Created</span>
         </div>
 
         <div class="short-url-row">
           <a id="short-url-link" class="short-url-link" href="#" target="_blank" rel="noopener noreferrer"></a>
           <button id="copy-btn" class="btn-copy" type="button">
-            <span id="copy-icon">📋</span>
+            <span id="copy-icon"></span>
             <span id="copy-text">Copiar</span>
           </button>
         </div>
@@ -90,7 +90,7 @@
             <span id="result-original" class="detail-value"></span>
           </div>
           <div class="detail-item">
-            <span class="detail-label">Fecha Creación:</span>
+            <span class="detail-label">Fecha Creacion:</span>
             <span id="result-created" class="detail-value"></span>
           </div>
         </div>
@@ -99,7 +99,7 @@
 
     <!-- Card 2: Consultar Enlace (GET /urls/{short_code}) -->
     <section class="card inspector-card">
-      <label for="inspect-code-input">🔍 Consultar Información en DynamoDB (GET /urls/{short_code})</label>
+      <label for="inspect-code-input">Consultar Informacion en DynamoDB (GET /urls/{short_code})</label>
       <form id="inspect-form" class="inspector-form">
         <input 
           type="text" 
@@ -123,7 +123,7 @@
 
     <!-- Footer -->
     <footer>
-      <p>Midterm - Practical: Desarrollo y despliegue de un acortador de enlaces en AWS</p>
+      <p>Acortador de Enlaces Cloud - Arquitectura en AWS (S3, EC2 y DynamoDB)</p>
       <p style="margin-top: 0.35rem; font-size: 0.8rem; color: #64748b;">
         Frontend S3 &bull; Backend FastAPI EC2 &bull; DynamoDB Table: <code>url_shortener_links</code>
       </p>

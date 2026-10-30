@@ -235,13 +235,11 @@
 
     try {
       await navigator.clipboard.writeText(textToCopy);
-      copyText.textContent = "¡Copiado!";
-      copyIcon.textContent = "✅";
+      copyText.textContent = "Copiado";
       copyBtn.classList.add("copied");
 
       setTimeout(() => {
         copyText.textContent = "Copiar";
-        copyIcon.textContent = "📋";
         copyBtn.classList.remove("copied");
       }, 2000);
     } catch (e) {
@@ -253,7 +251,7 @@
       document.execCommand("copy");
       document.body.removeChild(tempInput);
 
-      copyText.textContent = "¡Copiado!";
+      copyText.textContent = "Copiado";
       setTimeout(() => {
         copyText.textContent = "Copiar";
       }, 2000);
