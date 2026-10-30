@@ -141,10 +141,11 @@ Ejecutar las pruebas unitarias:
 python -m pytest tests/ -v
 ```
 
-Ejecutar el servidor local en modo desarrollo:
+Ejecutar el servidor local en modo desarrollo con el CLI oficial de FastAPI:
 ```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+fastapi dev app/main.py --host 0.0.0.0 --port 8000
 ```
+*(Tambien puedes ejecutar `fastapi dev` directamente dentro de la carpeta `backend`, ya que FastAPI detecta automaticamente `app/main.py` y levanta el servidor con auto-reload en el puerto 8000).*
 - API REST: `http://localhost:8000`
 - Documentacion interactiva Swagger UI: `http://localhost:8000/docs`
 

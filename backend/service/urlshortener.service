@@ -13,14 +13,14 @@ WorkingDirectory=/home/ubuntu/aws-url-shortener/backend
 # Archivo de variables de entorno
 EnvironmentFile=/home/ubuntu/aws-url-shortener/backend/.env
 
-# Comando para iniciar Uvicorn utilizando el entorno virtual
-ExecStart=/home/ubuntu/aws-url-shortener/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+# Comando para iniciar la aplicacion utilizando el CLI oficial de FastAPI en produccion
+ExecStart=/home/ubuntu/aws-url-shortener/backend/venv/bin/fastapi run app/main.py --host 0.0.0.0 --port 8000
 
-# Política de reinicio automático ante fallos
+# Politica de reinicio automatico ante fallos
 Restart=always
 RestartSec=5
 
-# Límites de archivos abiertos
+# Limites de archivos abiertos
 LimitNOFILE=65536
 
 [Install]
