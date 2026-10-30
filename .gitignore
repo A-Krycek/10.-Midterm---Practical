@@ -43,3 +43,6 @@ Thumbs.db
 # Documentos personales / notas locales
 GUION_VIDEO_DEMO.md
 *.local.md
+
+# Llaves privadas SSH
+*.pem
