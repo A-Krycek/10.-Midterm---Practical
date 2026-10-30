@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, NoCredentialsError, EndpointConnectionError
 
 from app.config import settings
 from app.models import ShortenRequest, ShortenResponse, UrlInfoResponse
@@ -69,6 +69,18 @@ def shorten_url(payload: ShortenRequest):
             original_url=original_url,
             created_at=created_at
         )
+    except NoCredentialsError:
+        logger.error("No se encontraron credenciales de AWS.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error de autenticación AWS: No se encontraron credenciales. Verifica que el Rol IAM esté asociado a la instancia EC2."
+        )
+    except EndpointConnectionError as e:
+        logger.error(f"Error de conexión con DynamoDB: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"No se pudo conectar con DynamoDB en la región '{settings.AWS_REGION}'."
+        )
     except ClientError as e:
         logger.error(f"Error al escribir en DynamoDB: {e}")
         raise HTTPException(
@@ -105,6 +117,18 @@ def get_url_info(short_code: str):
     """
     try:
         item = get_url_item(short_code)
+    except NoCredentialsError:
+        logger.error("No se encontraron credenciales de AWS.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error de autenticación AWS: No se encontraron credenciales. Verifica que el Rol IAM esté asociado a la instancia EC2."
+        )
+    except EndpointConnectionError as e:
+        logger.error(f"Error de conexión con DynamoDB: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"No se pudo conectar con DynamoDB en la región '{settings.AWS_REGION}'."
+        )
     except ClientError as e:
         logger.error(f"Error al consultar DynamoDB: {e}")
         raise HTTPException(
@@ -138,6 +162,18 @@ def redirect_to_url(short_code: str):
     """
     try:
         item = get_url_item(short_code)
+    except NoCredentialsError:
+        logger.error("No se encontraron credenciales de AWS.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error de autenticación AWS: No se encontraron credenciales. Verifica que el Rol IAM esté asociado a la instancia EC2."
+        )
+    except EndpointConnectionError as e:
+        logger.error(f"Error de conexión con DynamoDB: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"No se pudo conectar con DynamoDB en la región '{settings.AWS_REGION}'."
+        )
     except ClientError as e:
         logger.error(f"Error al consultar DynamoDB para redirección: {e}")
         raise HTTPException(

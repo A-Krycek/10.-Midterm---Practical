@@ -94,10 +94,17 @@ sudo apt install -y python3 python3-pip python3-venv git
 
 Clona tu repositorio del proyecto:
 ```bash
-git clone <URL_DE_TU_REPOSITORIO_GITHUB_O_GITLAB>
+git clone https://github.com/A-Krycek/10.-Midterm---Practical.git aws-url-shortener
 cd aws-url-shortener/backend
 ```
 
+#### Opción A: Despliegue Rápido Automatizado (Recomendado)
+Puedes ejecutar el script automatizado que detecta tu IP pública, instala dependencias, crea el `.env` y configura `systemd` en un solo comando:
+```bash
+bash service/setup-ec2.sh
+```
+
+#### Opción B: Configuración Manual Paso a Paso
 Crea y activa el entorno virtual:
 ```bash
 python3 -m venv venv
@@ -109,7 +116,7 @@ Crea el archivo `.env`:
 ```bash
 nano .env
 ```
-Pega el siguiente contenido (reemplazando con tus datos reales):
+Pega el siguiente contenido (reemplazando `<IP_PUBLICA_EC2>` con la IP de tu instancia):
 ```env
 AWS_REGION=us-east-1
 DYNAMODB_TABLE_NAME=url_shortener_links
@@ -118,7 +125,7 @@ CORS_ORIGINS=*
 ```
 *Guarda los cambios con `Ctrl + O`, presiona `Enter` y sal con `Ctrl + X`.*
 
-### 3.4 Configuración del Servicio Persistente con systemd
+### 3.4 Configuración del Servicio Persistente con systemd (Paso Manual)
 Para que el backend siga funcionando al cerrar la sesión SSH o al reiniciar el servidor:
 
 1. Copia el archivo de servicio a systemd:
